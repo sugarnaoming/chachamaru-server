@@ -8,9 +8,8 @@ require_relative 'crons/qiita_ranking_controller'
 
 get '/api/hatebu/:entry/:category' do |entry, category|
   begin
-    res_body = API::HATEBU.rss(entry: entry, category: category)
     content_type :json
-    json res_body
+    json res_body = API::Hatebu.rss(entry: entry, category: category)
   rescue ArgumentError
     status 400
     body 'Entry or category or both arguments are incorrect'

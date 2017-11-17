@@ -1,14 +1,13 @@
 require 'rss'
 require 'open-uri'
 require 'rexml/document'
-require 'json'
 
 require_relative 'utils'
 require_relative 'custom_rss'
 require_relative 'qiita_db'
 
 module API
-  class HATEBU
+  class Hatebu
     # はてなブックマークのrssを取得するapiです
     # 取得する画像が無い場合は空文字が入ります
     # 取得したrssからtitle, link, description, bookmark, favicon, img srcをhashにして返却します
@@ -19,20 +18,12 @@ module API
     # 総合カテゴリは"all"を入力すると取得できます
     # @return [hash]
     def self.rss(entry:, category:)
-      entrys = ['hotentry', 'entrylist']
-      categorys = ['all', 'social', 'economics', 'life', 'knowledge', 'it', 'entertainment', 'game', 'fun']
-      unless entrys.include?(entry)
-        raise ArgumentError
-      end
-      unless categorys.include?(category)
-        raise ArgumentError
-      end
-
-      if category == 'all'
-        uri = "http://b.hatena.ne.jp/#{entry}.rss"
-      else
-        uri = "http://b.hatena.ne.jp/#{entry}/#{category}.rss"
-      end
+      entries = ['hotentry', 'entrylist']
+      categories = ['all', 'social', 'economics', 'life', 'knowledge', 'it', 'entertainment', 'game', 'fun']
+      raise ArgumentError unless entries.include?(entry)
+      raise ArgumentError unless categories.include?(category)
+      uri = "http://b.hatena.ne.jp/#{entry}/#{category}.rss"
+      uri = "http://b.hatena.ne.jp/#{entry}.rss" if category == 'all'
       feed = Rss.new.get_rss(url: uri, fake_agent: true)
       articles = []
       feed.items.each do |item|
@@ -42,7 +33,7 @@ module API
         img_url = doc.elements['blockquote/p/a/img'].attributes['src']
         img_url = '' unless img_url.start_with?('http://cdn-ak.b.st-hatena.com')
         img_url = '' if img_url.start_with?('https://cdn-ak-scissors.b.st-hatena.com/image/square')
-        bookmark = open("http://api.b.st-hatena.com/entry.count?url=#{item.link}", @opt){ |res| res.read  }
+        bookmark = open("http://api.b.st-hatena.com/entry.count?url=#{item.link}"){ |body| body.read  }
         articles << [['title', item.title],
                      ['link', item.link],
                      ['desc', item.description],
