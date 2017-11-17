@@ -1,10 +1,10 @@
 require 'sinatra'
 require 'sinatra/reloader'
 require 'sinatra/json'
-require_relative '../'
+require_relative 'api'
 
 # デバッグ用
-require_relative 'crons/qiita_ranking_controller'
+require_relative '../crons/qiita_ranking_controller'
 
 get '/api/hatebu/:entry/:category' do |entry, category|
   begin
@@ -34,4 +34,14 @@ get '/api/qiita/rank/:period' do |period|
   return Qiita.get_weekly_rank if period == 'get_w'
   return Qiita.delete_daily_rank if period == 'del_d'
   return Qiita.delete_weekly_rank if period == 'del_w'
+end
+
+not_found do
+  status 404
+  body 'Not Found'
+end
+
+error do
+  status 500
+  body 'Internal Server Error'
 end
