@@ -35,3 +35,13 @@ get '/api/qiita/rank/:period' do |period|
   return Qiita.delete_daily_rank if period == 'del_d'
   return Qiita.delete_weekly_rank if period == 'del_w'
 end
+
+not_found do
+  status 404
+  body 'Not Found'
+end
+
+error do
+  status 500
+  body 'Internal Server Error'
+end
