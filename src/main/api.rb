@@ -2,9 +2,9 @@ require 'rss'
 require 'open-uri'
 require 'rexml/document'
 
-require_relative 'utils'
-require_relative 'custom_rss'
-require_relative 'qiita_db'
+require_relative 'lib/ib/utils'
+require_relative 'lib/custom_rss'
+require_relative 'db/qiita_db'
 
 module API
   class Hatebu

@@ -1,6 +1,6 @@
 require 'sqlite3'
 require 'sequel'
-require_relative 'utils'
+require_relative '../lib/utils'
 
 class QiitaDB
   def initialize

@@ -1,7 +1,7 @@
 require 'open-uri'
 require 'json'
-require_relative '../utils'
-require_relative '../qiita_db'
+require_relative '../lib/utils'
+require_relative '../db/qiita_db'
 
 class Qiita
   @@base_uri = 'https://qiita.com'

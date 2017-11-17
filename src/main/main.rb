@@ -1,7 +1,7 @@
 require 'sinatra'
 require 'sinatra/reloader'
 require 'sinatra/json'
-require_relative 'api'
+require_relative '../'
 
 # デバッグ用
 require_relative 'crons/qiita_ranking_controller'
