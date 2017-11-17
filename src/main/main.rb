@@ -1,10 +1,10 @@
 require 'sinatra'
 require 'sinatra/reloader'
 require 'sinatra/json'
-require_relative '../'
+require_relative 'api'
 
 # デバッグ用
-require_relative 'crons/qiita_ranking_controller'
+require_relative '../crons/qiita_ranking_controller'
 
 get '/api/hatebu/:entry/:category' do |entry, category|
   begin
