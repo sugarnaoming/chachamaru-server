@@ -1,4 +1,5 @@
 /.bundle/
 /vendor/
-/db/
+/db/*
+!db/.gitkeep
 /.idea/
