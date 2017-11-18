@@ -3,7 +3,7 @@ require 'json'
 require_relative '../lib/utils'
 require_relative '../db/qiita_db'
 
-class Qiita
+class QiitaCron
   @@base_uri = 'https://qiita.com'
   # QiitaAPIを利用して現在日から1日前までに投稿された記事のid、タイトル、作成日、URL、いいね数を取得してDBに登録する
   # @return [void] なし

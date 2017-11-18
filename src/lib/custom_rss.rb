@@ -1,7 +1,7 @@
 require 'open-uri'
 require 'rss'
 
-class Rss
+class CRss
   # 引数に渡されたurlに対してRSSの取得を試みます
   # @params [String] url: RSSを取得するURL
   # @params [Boolean] fake_agent: ユーザエージェントを偽装します
