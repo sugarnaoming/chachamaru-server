@@ -1,7 +1,6 @@
 require 'rss'
 require 'open-uri'
 require 'rexml/document'
-
 require_relative '../lib/utils'
 require_relative '../lib/custom_rss'
 require_relative '../db/qiita_db'
@@ -24,7 +23,7 @@ module API
       raise ArgumentError unless categories.include?(category)
       uri = "http://b.hatena.ne.jp/#{entry}/#{category}.rss"
       uri = "http://b.hatena.ne.jp/#{entry}.rss" if category == 'all'
-      feed = Rss.new.get_rss(url: uri, fake_agent: true)
+      feed = CRss.new.get_rss(url: uri, fake_agent: true)
       articles = []
       feed.items.each do |item|
         content_xml = item.content_encoded[/<blockquote(.*)<\/blockquote>/]
@@ -61,7 +60,7 @@ module API
     # rssとしてQiitaから人気の記事一覧を取得
     # @return [hash] HashMap形式で返します
     def self.popular
-      feed = Rss.new.get_rss(url: 'https://qiita.com/popular-items/feed')
+      feed = CRss.new.get_rss(url: 'https://qiita.com/popular-items/feed')
       articles = []
       feed.items.each do |item|
         title = REXML::Document.new(item.title.to_s).elements['title'].text
