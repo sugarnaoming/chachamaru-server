@@ -2,9 +2,7 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'sinatra/json'
 require_relative 'api'
-
-# デバッグ用
-require_relative '../crons/qiita_ranking_controller'
+require_relative '../crons/qiita_cron'
 
 get '/api/hatebu/:entry/:category' do |entry, category|
   begin
@@ -29,13 +27,9 @@ get '/api/qiita/rank/:period' do |period|
     status 400
     body 'It is an unexpected error. If Perhaps it\'s a Rate Limit'
   end
-  # デバッグ用
-  return Qiita.get_daily_rank if period == 'get_d'
-  return Qiita.get_weekly_rank if period == 'get_w'
-  return Qiita.delete_daily_rank if period == 'del_d'
-  return Qiita.delete_weekly_rank if period == 'del_w'
 end
 
+# Error用URL
 not_found do
   status 404
   body 'Not Found'
@@ -44,4 +38,21 @@ end
 error do
   status 500
   body 'Internal Server Error'
+end
+
+# Crons操作用URL
+get '/crons/qiita/get/daily' do
+  return QiitaCron.get_daily_rank
+end
+
+get '/crons/qiita/get/weekly' do
+  return QiitaCron.get_weekly_rank
+end
+
+get '/crons/qiita/del/daily' do
+  return QiitaCron.delete_daily_rank
+end
+
+get '/crons/qiita/del/weekly' do
+  return QiitaCron.delete_weekly_rank
 end
